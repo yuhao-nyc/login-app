@@ -98,7 +98,7 @@ export default class ListInfo extends Component {
 
   render() {
     return(
-      <div className="container">
+      <div className="container" style={{marginTop: '4%'}}>
         <div className="row">
           <div className="col-md-6">
             <div className="list-group filter-box">

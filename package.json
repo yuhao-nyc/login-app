@@ -35,6 +35,6 @@
     "react-redux": "4.3.0",
     "react-router": "^2.0.1",
     "react-router-dom": "^4.2.2",
-    "redux": "^3.0.4",
+    "redux": "^3.0.4"
   }
 }

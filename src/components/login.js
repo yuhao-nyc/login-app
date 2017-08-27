@@ -6,7 +6,7 @@ export default class Login extends Component {
     this.state = {
       username: '',
       password: '',
-      error: 'Please Login'
+      error: ' '
     }
     this.onChange = this.onChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -27,17 +27,18 @@ export default class Login extends Component {
       })
     } else if (password.length<10) {
       this.setState({
-        error: "The password at least 10 characters long"
+        error: "The password is at least 10 characters long"
       })
     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(username)) {
       this.setState({
-        error: "Username is inValid"
+        error: "Username is invalid"
       })
     } else if ( username === 'test@zola.com' && password === 'zola#frontend' ) {
       this.setState({
         error: "Login Success! Redirecting now..."
       })
-      window.location.href = "http://localhost:8080/listInfo"; //not a good approach need to rework on auth with sessions
+      window.location.href = "http://localhost:8080/listInfo";
+      //not a good approach need to rework on auth with a valid sessions
     } else {
       this.setState({
         error: "Denied! Please double check your username and password"
@@ -48,7 +49,6 @@ export default class Login extends Component {
   render(){
     return(
       <div>
-        <h5>{this.state.error}</h5>
         <form onSubmit={this.handleSubmit}>
           <div className="form-group">
             <input
@@ -69,7 +69,8 @@ export default class Login extends Component {
               placeholder="Password"/>
           </div>
           <button className="btn btn-primary" type="submit">Login</button>
-        </form>
+        </form> <br />
+        <h6 className="error-msg">{this.state.error}</h6>
       </div>
     )
   }

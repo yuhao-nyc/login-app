@@ -1,14 +1,19 @@
+.box-signin {
+  width: 360px;
+  margin: 12% auto 0;
+}
+.error-msg {
+  color: #ff4866;
+}
 .list-item-box {
   border: 1px solid #ddd;
   border-radius: 4px;
   padding: 15px;
   margin: 10px 0 15px;
 }
-
 .list-item-box h2 {
   font-size: 16px;
 }
-
 .list-item-box h4,
 .list-item-box h5 {
   font-size: 12px;
@@ -23,7 +28,6 @@
 .filter-box a:hover {
   cursor: pointer;
 }
-
 .priority-box {
   width: 20px;
   height: 20px;
@@ -31,15 +35,15 @@
 .priority-box-1{
   background-color: orange;
 }
-
 .priority-box-2 {
   background-color: green;
 }
-
 .priority-box-3 {
   background-color: blue;
 }
-
 .priority-box-4 {
   background-color: purple;
+}
+.form-check-inline+.form-check-inline {
+  margin-left: 0 !important;
 }

@@ -1,34 +1,95 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router';
-import { connect } from 'react-redux';
-import * as actions from '../actions';
+import React from 'react';
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Redirect,
+  withRouter
+} from 'react-router-dom';
+import ListInfo from './listInfo';
 
-class Header extends Component {
-  authBtn() {
-    if(this.props.authed) {
-      return <button className="btn btn-secondary" onClick={ () => this.props.authFunc(false) }>Sign Out</button>
-    }
-    return <button className="btn btn-secondary" onClick={ () => this.props.authFunc(true) }>Sign In</button>
+
+const AuthExample = () => (
+  <Router>
+    <div>
+      <AuthButton/>
+      <ul>
+        <li><Link to="/public">Public Page</Link></li>
+        <li><Link to="/protected">Protected Page</Link></li>
+      </ul>
+      <PrivateRoute path="/protected" component={Protected}/>
+    </div>
+  </Router>
+)
+
+const fakeAuth = {
+  isAuthenticated: false,
+  authenticate(cb) {
+    this.isAuthenticated = true
+    setTimeout(cb, 100) // fake async
+  },
+  signout(cb) {
+    this.isAuthenticated = false
+    setTimeout(cb, 100)
+  }
+}
+
+const AuthButton = withRouter(({ history }) => (
+  fakeAuth.isAuthenticated ? (
+    <p>
+      Welcome! <button onClick={() => {
+        fakeAuth.signout(() => history.push('/'))
+      }}>Sign out</button>
+    </p>
+  ) : (
+    <p>You are not logged in.</p>
+  )
+))
+
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route {...rest} render={props => (
+    fakeAuth.isAuthenticated ? (
+      <Component {...props}/>
+    ) : (
+      <Redirect to={{
+        pathname: '/listInfo',
+        state: { from: props.location }
+      }}/>
+    )
+  )}/>
+)
+
+const Public = () => <h3>Public</h3>
+const Protected = () => <h3>Protected</h3>
+
+class Login extends React.Component {
+  state = {
+    redirectToReferrer: false
+  }
+
+  login = () => {
+    fakeAuth.authenticate(() => {
+      this.setState({ redirectToReferrer: true })
+    })
   }
 
   render() {
+    const { from } = this.props.location.state || { from: { pathname: '/' } }
+    const { redirectToReferrer } = this.state
+
+    if (redirectToReferrer) {
+      return (
+        <Redirect to={from}/>
+      )
+    }
+
     return (
-      <div className="btn-group">
-        <button className="btn btn-secondary">
-          <Link to='/'>Home</Link>
-        </button>
-        <button className="btn btn-secondary">
-          <Link to='/listInfo'>List Info</Link>
-        </button>
-        {this.authBtn()}
+      <div>
+        <p>You must log in to view the page at {from.pathname}</p>
+        <button onClick={this.login}>Log in</button>
       </div>
     )
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    authed: state.authed
-  }
-}
-export default connect(mapStateToProps, actions)(Header);
+export default AuthExample
