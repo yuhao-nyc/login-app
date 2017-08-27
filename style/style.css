@@ -1,0 +1,45 @@
+.list-item-box {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 15px;
+  margin: 10px 0 15px;
+}
+
+.list-item-box h2 {
+  font-size: 16px;
+}
+
+.list-item-box h4,
+.list-item-box h5 {
+  font-size: 12px;
+}
+.box-hidden {
+  display: none;
+}
+.filter-box a {
+  font-size: 14px;
+  padding: 5px 10px;
+}
+.filter-box a:hover {
+  cursor: pointer;
+}
+
+.priority-box {
+  width: 20px;
+  height: 20px;
+}
+.priority-box-1{
+  background-color: orange;
+}
+
+.priority-box-2 {
+  background-color: green;
+}
+
+.priority-box-3 {
+  background-color: blue;
+}
+
+.priority-box-4 {
+  background-color: purple;
+}
