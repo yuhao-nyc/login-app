@@ -1,12 +1,21 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import _ from 'lodash';
+import Cookies from 'universal-cookie';
 
-export default class ListInfo extends Component {
+class ListInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
       items: []
+    }
+  }
+  componentWillMount() {
+    const cookies = new Cookies();
+    if (cookies.get('loginSession')) {
+      console.log('login success')
+    } else {
+      window.location.href = "http://localhost:8080/";
     }
   }
 
@@ -29,6 +38,7 @@ export default class ListInfo extends Component {
     })
   }
 
+
   renderItems() {
     return _.map(this.state.items, data => {
       return (
@@ -44,7 +54,8 @@ export default class ListInfo extends Component {
     })
   }
 
-  handleFilter(event) { //a bad solution.. needs some improvement!! maybe an array to store the 3 categories
+  handleFilter(event) {
+    //a bad solution.. needs improvement. maybe an array to store the 3 categories?
     const list1 = document.getElementsByClassName("item-box-cat1");
     const list2 = document.getElementsByClassName("item-box-cat2");
     const list3 = document.getElementsByClassName("item-box-cat3");
@@ -122,3 +133,5 @@ export default class ListInfo extends Component {
     )
   }
 }
+
+export default ListInfo;

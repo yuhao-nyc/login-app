@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
+import Cookies from 'universal-cookie';
 
-export default class Login extends Component {
+class Login extends Component {
   constructor(props){
     super(props);
     this.state = {
       username: '',
       password: '',
-      error: ''
+      error: '',
     }
     this.onChange = this.onChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+
   onChange(event) {
     this.setState({
       [event.target.name]: event.target.value
@@ -23,11 +25,15 @@ export default class Login extends Component {
 
     if ( !username || !password ) {
       this.setState({
-        error: "The username and password are empty"
+        error: "The username or password are empty"
       })
-    } else if ( password.length<10 && !/^[a-z0-9]+$/i.test(username)) {
+    } else if ( password.length<10 ) {
       this.setState({
-        error: "The password should be at least 10 characters long and contains at least 1 non­alphanumeric character."
+        error: "The password should be at least 10 characters long."
+      })
+    } else if ( !/^[a-z0-9]+$/i.test(username)) {
+      this.setState({
+        error: "The password should contain at least 1 non­alphanumeric character."
       })
     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(username)) {
       this.setState({
@@ -42,8 +48,10 @@ export default class Login extends Component {
      this.setState({
        error: "Login Success! Redirecting now..."
      })
+     const cookies = new Cookies();
+     cookies.set('loginSession', 'loggedIn', { path: '/', maxAge: 86400 }); //expires in a day
      window.location.href = "http://localhost:8080/listInfo";
-     //not a good approach need to rework on auth with a valid sessions
+     //not a better approach need to rework on auth with a valid sessions
    }
   }
 
@@ -76,3 +84,5 @@ export default class Login extends Component {
     )
   }
 }
+
+export default Login;

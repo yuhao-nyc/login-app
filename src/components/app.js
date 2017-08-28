@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Login from './login';
-import AuthExample from './header';
 
 export default class App extends Component {
   render() {
