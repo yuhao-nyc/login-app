@@ -6,7 +6,7 @@ export default class Login extends Component {
     this.state = {
       username: '',
       password: '',
-      error: ' '
+      error: ''
     }
     this.onChange = this.onChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -25,25 +25,26 @@ export default class Login extends Component {
       this.setState({
         error: "The username and password are empty"
       })
-    } else if (password.length<10) {
+    } else if ( password.length<10 && !/^[a-z0-9]+$/i.test(username)) {
       this.setState({
-        error: "The password is at least 10 characters long"
+        error: "The password should be at least 10 characters long and contains at least 1 non­alphanumeric character."
       })
     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(username)) {
       this.setState({
         error: "Username is invalid"
       })
-    } else if ( username === 'test@zola.com' && password === 'zola#frontend' ) {
-      this.setState({
-        error: "Login Success! Redirecting now..."
-      })
-      window.location.href = "http://localhost:8080/listInfo";
-      //not a good approach need to rework on auth with a valid sessions
     } else {
       this.setState({
-        error: "Denied! Please double check your username and password"
+        error: "Denied! Please double check your username or password"
       })
     }
+    if ( username === 'test@zola.com' && password === 'zola#frontend' ) {
+     this.setState({
+       error: "Login Success! Redirecting now..."
+     })
+     window.location.href = "http://localhost:8080/listInfo";
+     //not a good approach need to rework on auth with a valid sessions
+   }
   }
 
   render(){
